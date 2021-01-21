@@ -1,0 +1,397 @@
+body {
+  background-color: rgb(15, 105, 105);
+  color: mintcream;
+  font-family: bookmania, serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 1.9rem;
+  text-align: left;
+}
+
+form {
+}
+
+input {
+  background-color: rgb(15, 105, 105);
+
+  font-size: 1em;
+}
+
+input[type="checkbox"]:checked {
+  background-color: lightcoral;
+}
+
+label {
+  font-size: 0.7em;
+}
+
+select {
+  font-size: 0.9em;
+}
+
+.dotted {
+  cursor: pointer;
+  text-decoration: underline 2px dotted lightcoral;
+}
+
+.hoverdotted:hover {
+  cursor: pointer;
+  text-decoration: underline 2px dotted lightcoral;
+}
+
+.button {
+  border: none;
+}
+
+.container {
+  max-width: 700px;
+}
+
+.login {
+  width: 40%;
+  height: 10%;
+  margin: 40% auto 0 auto;
+  display: none;
+  background-color: rgb(15, 105, 105);
+  color: white;
+  border: lightcoral 2px solid;
+  font-size: 0.6em;
+  line-height: 3em;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+}
+
+.login:active {
+  background-color: lightcoral;
+}
+
+#allButHeader {
+  display: none;
+}
+
+#header {
+  margin-top: 6%;
+  width: 100%;
+  text-align: left;
+}
+
+#title {
+  color: lightcoral;
+  font-size: 1.4em;
+  font-family: kari-display-pro, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  transform: scale(1, 1.5);
+  float: left;
+}
+
+#logout {
+  float: right;
+  font-size: 0.7em;
+  margin-top: 0.8em;
+  color: lightcoral;
+  display: none;
+  cursor: pointer;
+  margin-right: 1em;
+}
+
+#logout:active {
+  color: white;
+}
+
+.logoutIcon {
+  font-size: 2.1em;
+  line-height: 0.5em;
+}
+
+.row {
+  width: 100%;
+}
+
+.rowNum {
+  float: left;
+  padding-right: 0.8em;
+  color: lightcoral;
+}
+
+.rowNumEntry {
+  float: left;
+  padding-right: 0.4em;
+  color: lightcoral;
+}
+
+.menuitem {
+  padding-right: 0.4em;
+  cursor: pointer;
+}
+
+.menuitem:active {
+  text-decoration: underline lightcoral 3px;
+}
+
+.active {
+  text-decoration: underline lightcoral 3px;
+}
+
+.menu {
+  margin-top: 3em;
+  margin-bottom: 2em;
+  display: block;
+}
+
+::placeholder {
+  color: white;
+}
+
+.title {
+  display: block;
+}
+
+.author {
+  display: block;
+  margin-top: 1.5em;
+}
+
+#booktitle {
+  display: block;
+  width: 75%;
+  height: 1em;
+  margin-right: 0.1em;
+  float: left;
+}
+
+#authorname {
+  display: block;
+  width: 75%;
+  height: 1em;
+  margin-right: 0.1em;
+  float: left;
+}
+
+#replacedTitle {
+  text-indent: 0.4em;
+  display: none;
+}
+
+#replacedAuth {
+  text-indent: 0.5em;
+  display: none;
+}
+.diff {
+  margin-top: 1.5em;
+  display: block;
+}
+#diff {
+  margin-top: -0.2em;
+  width: 6em;
+  float: left;
+  display: inline-block;
+  margin-left: -0.7em;
+  background-color: rgb(15, 105, 105);
+  font-size: 1em;
+}
+
+#diff:active {
+  border: 1px lightcoral dotted;
+  outline: none;
+}
+
+#question {
+  display: none;
+  margin-top: 1.5em;
+}
+
+#authorChoice {
+  text-indent: 0.2em;
+}
+
+#enterButton {
+  display: block;
+  margin-top: 1.6em;
+  cursor: pointer;
+}
+
+.enterword:active,
+.enterword:focus,
+#yes:active,
+#yes:focus,
+#no:active,
+#no:focus,
+.response:active,
+.response:focus {
+  outline: none;
+  border: none;
+}
+
+#yes {
+  display: block;
+  margin-left: 1.5em;
+  margin-right: 0.5em;
+  float: left;
+  margin-top: 0.5em;
+}
+
+#no {
+  margin-left: 0.5em;
+  display: inline-block;
+  float: left;
+  margin-top: 0.5em;
+}
+#error {
+  margin-top: 2em;
+  display: none;
+}
+
+#needDiff {
+  display: none;
+}
+
+#needTitle {
+  display: none;
+}
+
+#pages {
+  display: none;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+#pageNum {
+  display: block;
+}
+
+#pageInput {
+  display: block;
+  width: 4em;
+  height: 1em;
+  margin-right: 0.1em;
+  float: left;
+  margin-left: -0.3em;
+  margin-bottom: 1.7em;
+}
+
+#pagesDiv {
+  float: left;
+  display: none;
+}
+
+#confirm {
+  display: none;
+  margin-top: -0.5em;
+}
+#confirmButton,
+#cancelButton {
+  cursor: pointer;
+}
+
+#enterCancel {
+  display: block;
+}
+
+#logged {
+  display: none;
+  margin-top: -0.5em;
+}
+
+#dueDate {
+  color: lightcoral;
+  padding-left: 0.3em;
+}
+
+.log {
+  margin-top: -1em;
+  display: none;
+}
+
+.lognum {
+  float: left;
+  padding-right: 0.8em;
+  color: lightcoral;
+  margin-left: -1.6em;
+}
+
+.logItem {
+  display: inline-block;
+  float: left;
+  margin-left: 1.6em;
+  text-align: left;
+  width: 90%;
+  margin-top: 1em;
+}
+
+.dueDone {
+  color: white;
+}
+
+.date {
+  color: lightcoral;
+  margin-left: 1em;
+  width: em;
+}
+
+.box {
+  cursor: pointer;
+  vertical-align: middle;
+  font-size: 1.3em;
+  padding-left: 0.5em;
+  margin-top: -0.1em;
+}
+
+.checked {
+  display: none;
+}
+
+.stats {
+  display: none;
+}
+
+.users {
+  margin-top: -0.8em;
+  display: none;
+}
+
+.userchoicerow {
+  margin-bottom: 1.2em;
+}
+
+@media (hover: hover) {
+  .enterword:focus,
+  #diff:focus,
+  #yes:focus,
+  #no:focus,
+  .response:focus {
+    outline: none;
+    border: 1px lightcoral dotted;
+  }
+
+  #logout:hover {
+    color: white;
+  }
+  .login:hover {
+    background-color: lightcoral;
+  }
+
+  .menuitem:hover {
+    text-decoration: underline lightcoral 3px;
+  }
+}
+
+/* Larger than mobile */
+@media (min-width: 400px) {
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: 550px) {
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
+}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {
+}

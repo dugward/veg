@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Metastuff
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+    <meta
+      name="description"
+      content="A site to track the books you read and suggest deadlines for finishing them."
+    />
+    <meta
+      property="og:description"
+      content="A site to track the books you read and suggest deadlines for finishing them."
+    />
+    <meta property="og:image" content="../favicon.png" />
+    <title>Cultural Veg</title>
+
+    <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="https://use.typekit.net/qaa8jnv.css" />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/skeleton.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="../favicon.png" />
+    <!-- the page
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  </head>
+  <body>
+    <div class="container">
+    
+      <!-- the header
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div id="header" class="row left">
+        <div id="title">Cultural Veg</div>
+        <div id="logout">
+          <span class="material-icons logoutIcon"> exit_to_app </span>
+        </div>
+      </div>
+  <!-- the login
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div id="login">
+    <div class="button login" id="loginButton">Login</div>
+  </div>
+  <!-- allButHeader start
+–––––––––––––––––––––––––––––––––––––– -->
+
+<div id="allButHeader">
+
+      <!-- menu row
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="row menu ">
+        <span class="rowNum">1.</span>
+        <a id="entryMenu" class="menuitem active">Entry</a>
+
+        <a id="logMenu" class="menuitem">Log</a>
+        <!-- <a id="statsMenu" class="menuitem">Stats</a> -->
+        <a id="usersMenu" class="menuitem">Users</a>
+      </div>
+<!-- begin formDiv
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <div id="formDiv">
+      
+           <!-- begin form
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <form id="mainForm">
+    <!-- title entry row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row title ">
+      <span class="rowNumEntry">2.</span>
+
+          <input type="text" id="booktitle" tabindex="1" name="title" form="mainForm" placeholder="Book Title"/>
+          <span id="replacedTitle">The Western Esoteric Tradition</span>
+
+
+
+    </div>
+    <!-- author entry row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="row author ">
+  <span class="rowNumEntry">3.</span>
+
+      <input type="text" id="authorname" tabindex="2" name="author" form="mainForm" placeholder="Author's Last Name"/>
+      <span id="replacedAuth">Goodrich-Smith</span>
+
+
+
+</div>
+          <!-- difficulty entry row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="row diff">
+  <span class="rowNum">4.</span>
+
+     
+    <select id="diff" tabindex="3" name="difflist" form="mainForm">
+      <option value="Select">Select</option>
+      <option value="Normal">Normal</option>
+      <option value="Tricky">Tricky</option>
+    </select>
+
+</div>
+
+    <!-- question row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row" id="question">
+      <span class="rowNumEntry">5.</span>
+     
+       By 
+        <a id="authorChoice">James Goodrich-Clark Jones</a> ?</br>
+     <div id="yes" class="hoverdotted" tabindex="5">Yes </div>
+     <div id="no" class="hoverdotted" tabindex="6">No</div>
+ 
+    </div>
+
+ <!-- enterbotton row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="row" id="enterButton">
+  <span class="rowNum">5.</span>
+  <p id="enterButtonText" class="hoverdotted"><span class="enterword" tabindex="4" >Search</span></p>
+
+</div>
+        <!-- pages row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="row  " id="pages">
+  <span class="rowNum">5.</span>
+  <p id="pageNum"><span id="pagesNo">357</span> pp.</p>
+  
+
+    <div id="pagesDiv">
+      <input type="text" id="pageInput" name="pageInput" form="mainForm" placeholder="Pages"/>
+    </div>
+
+
+</div>
+
+
+<!-- end form
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</form>
+
+  <!-- confirmation row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div id="confirm" class="row">
+  <span class="rowNum">6.</span>
+    <div id="enterCancel">
+    <a class="response"id="confirmButton"tabindex="6">Confirm</a> / <a class="response" id="cancelButton"tabindex="6">Cancel</a>
+  </div>
+</div>
+
+<div id="error"> <span class="rowNum">E</span>
+  <span id="needTitle">Fill out <span class="active">all</span> fields!</span></div>
+</div>
+
+  <div id="logged">
+    <span class="rowNum">6.</span>
+   Logged.</nbsp> &nbsp;&nbsp;Due <span id="dueDate">3/12/21</span>
+  </div>
+
+<!-- end formDiv
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+      <!-- log row
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="row log">
+   
+  </div>
+
+  <!-- Stats row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- <div class="row stats">
+    <span class="rowNum">2.</span>
+    Coming Soon!
+  </div> -->
+      <!-- users row
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="row users" id="userRow">
+        <div class="userchoicerow">
+          <span class="rowNum">2.</span
+          ><a class="userchoice dotted">Brendan Gilligan</a>
+        </div>
+        <div class="userchoicerow">
+          <span class="rowNum">3.</span
+          ><a class="userchoice dotted">Doug Rice</a>
+        </div>
+      </div>
+        <!-- allButHeader end
+–––––––––––––––––––––––––––––––––––––– -->
+</div>
+      <!-- container end
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    </div>
+    <!-- scripties
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
