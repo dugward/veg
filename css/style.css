@@ -60,7 +60,7 @@ select {
 .login {
   width: 40%;
   height: 10%;
-  margin: 40% auto 0 auto;
+  margin: 25vh auto 0 auto;
   display: none;
   background-color: rgb(15, 105, 105);
   color: white;
