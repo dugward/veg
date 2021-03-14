@@ -322,11 +322,13 @@ select {
 
 .logItem {
   display: inline-block;
+  padding-bottom: 0.5em;
   float: left;
   margin-left: 1.6em;
   text-align: left;
   width: 90%;
   margin-top: 1em;
+  border-bottom: 1px grey dashed;
 }
 
 .dueDone {
@@ -342,13 +344,65 @@ select {
 .box {
   cursor: pointer;
   vertical-align: middle;
-  font-size: 1.3em;
+  font-size: 1em;
   padding-left: 0.5em;
   margin-top: -0.1em;
 }
 
 .checked {
   display: none;
+}
+
+.dueDone,
+.date {
+  font-size: 0.8em;
+}
+
+.remove {
+  font-size: 1em;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-top: 0.34em;
+  color: lightcoral;
+}
+
+.warning {
+  position: absolute;
+  top: 10em;
+  left: 25%;
+  background-color: rgb(15, 105, 105);
+  border: 1px white solid;
+  border-radius: 1em;
+  width: 50%;
+  text-align: center;
+  display: none;
+}
+
+.logItem a {
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  text-decoration: underline 1px white dotted;
+}
+
+.logItem img {
+  float: left;
+  padding-right: 0.5em;
+  width: 80px;
+}
+
+.warningQuestion {
+  margin-top: 1em;
+}
+
+.yes {
+  padding-right: 0.5em;
+  cursor: pointer;
+}
+
+.no {
+  padding-left: 0.5em;
+  cursor: pointer;
 }
 
 .stats {
@@ -383,6 +437,11 @@ select {
 
   .menuitem:hover {
     text-decoration: underline lightcoral 3px;
+  }
+
+  .yes:hover,
+  .no:hover {
+    color: lightcoral;
   }
 }
 

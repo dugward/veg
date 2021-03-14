@@ -101,16 +101,7 @@ function clearActive() {
 }
 
 entryMenu.addEventListener("click", () => {
-  if (entryMenu.classList.contains("active") == false) {
-    clearActive();
-    entryMenu.classList.add("active");
-    formDiv.style.display = "block";
-    logDiv.style.display = "none";
-    // statsDiv.style.display = "none";
-    usersDiv.style.display = "none";
-  } else {
-    location.reload();
-  }
+  location.reload();
 });
 
 logMenu.addEventListener("click", () => {
@@ -142,18 +133,24 @@ logMenu.addEventListener("click", () => {
           logDiv.insertAdjacentHTML(
             "afterbegin",
             `
-        <div class="logItem">
+        <div class="logItem ${doc.id}">
       <span class="lognum">${counter}.</span>
-      <span class="title">${doc.data().title}</br>${
-              doc.data().author
-            }</br><span class="dueDone ${doc.id}">Due</span
+      <img src="${doc.data().imageUrl}">
+      <span class="title"><a href="${doc.data().webLink}">${
+              doc.data().title
+            }</a></br>${doc.data().author}</br><span class="dueDone ${
+              doc.id
+            }">Due</span
       ><span class="date ${doc.id}">${doc.data().due}</span>
       <span class="material-icons box unchecked ${
         doc.id
       }"> check_box_outline_blank </span>
       <span class="material-icons box checked ${
         doc.id
-      }"> check_box_outline</span>
+      }"> check_box_outline</span></br>
+<span class="material-icons remove ${doc.id}">
+remove_circle_outline
+</span>
     </div>
         `
           );
@@ -181,17 +178,54 @@ logMenu.addEventListener("click", () => {
                 finished: 1,
               });
             });
+
+          // remove entry
+
+          let thisRemove = document.getElementsByClassName(
+            `remove ${doc.id}`
+          )[0];
+          thisRemove.addEventListener("click", () => {
+            let warning = document.querySelector(".warning");
+            warning.style.display = "block";
+            document.querySelector(".yes").addEventListener("click", () => {
+              let deleteId = thisRemove.classList[2];
+              //delete doc in books and user
+              db.collection("books").doc(deleteId).delete();
+              db.collection("users")
+                .doc(userID)
+                .update({
+                  books: firebase.firestore.FieldValue.arrayRemove(
+                    `${deleteId}`
+                  ),
+                });
+              //remove from page
+              document.getElementsByClassName(
+                `logItem ${deleteId}`
+              )[0].style.display = "none";
+              //close warning
+              warning.style.display = "none";
+            });
+            document.querySelector(".no").addEventListener("click", () => {
+              warning.style.display = "none";
+            });
+          });
+          //
         } else {
           logDiv.insertAdjacentHTML(
             "beforeend",
             `
         <div class="logItem">
       <span class="lognum">${counter}.</span>
-      <span class="title">${doc.data().title}</br>${
-              doc.data().author
-            }</br><span class="dueDone">Done</span
+      <img src="${doc.data().imageUrl}">
+      <span class="title"><a href="${doc.data().webLink}">${
+              doc.data().title
+            }</a></br>${doc.data().author}</br><span class="dueDone">Done</span
       >
-      <span class="material-icons box"> check_box_outline </span>
+      <span class="material-icons box"> check_box_outline </span></br><span class="material-icons remove ${
+        doc.id
+      }">
+      remove_circle_outline
+      </span>
     </div>
         `
           );
@@ -247,7 +281,7 @@ function usersMenuUp() {
           thisUserChoice.addEventListener("click", () => {
             usersMenu.classList.remove("active");
             pageState = 2;
-            var count = 3;
+            var count = 2;
             var username = thisUserChoice.innerText;
             console.log(username);
             logDiv.insertAdjacentHTML(
@@ -257,21 +291,36 @@ function usersMenuUp() {
               ><a class="userchoice dotted">${username}</a>
             </div>`
             );
-            var userInfo = db.collection("books").where("name", "==", username);
-            userInfo.get().then(function (querySnapshot) {
+            var userBooks = db
+              .collection("users")
+              .where("name", "==", username);
+
+            userBooks.get().then(function (querySnapshot) {
               querySnapshot.forEach(function (doc) {
                 //putting up list
                 console.log(doc.id, " => ", doc.data());
-                logDiv.insertAdjacentHTML(
-                  "beforeend",
-                  `
-              <div class="logItem" style="margin-bottom: .25em">
-            <span class="lognum">${count}.</span>
-            <span class="title">${doc.data().title}</br>${doc.data().author}
-          </div>
-              `
-                );
-                count++;
+                var userBookList = doc.data().books.reverse();
+                userBookList.forEach((el) => {
+                  console.log(el);
+                  db.collection("books")
+                    .doc(el)
+                    .get()
+                    .then(function (doc) {
+                      count++;
+                      logDiv.insertAdjacentHTML(
+                        "beforeend",
+                        `
+                    <div class="logItem" style="margin-bottom: .25em">
+                  <span class="lognum">${count}.</span>
+                  <img src="${doc.data().imageUrl}">
+                  <span class="title"><a href="${doc.data().webLink}">${
+                          doc.data().title
+                        }</a></br>${doc.data().author}
+                </div>
+                    `
+                      );
+                    });
+                });
               });
             });
             usersDiv.style.display = "none";
@@ -284,7 +333,15 @@ function usersMenuUp() {
 
 usersMenu.addEventListener("click", usersMenuUp);
 
-var bookTitle, bookAuthor, bookPages, dueDate, bookDocId, pagesAve;
+var bookTitle,
+  bookAuthor,
+  bookPages,
+  dueDate,
+  bookDocId,
+  pagesAve,
+  id,
+  imageUrl,
+  webLink;
 
 //Grab the form info on Enter
 
@@ -313,12 +370,13 @@ function manual() {
 //add book to books function
 function bookToBooks() {
   db.collection("books").doc(bookDocId).set({
-    user: userID,
     title: bookTitle,
     author: bookAuthor,
     pages: bookPages,
     due: dueDate,
-    name: userName,
+    id: id,
+    imageUrl: imageUrl,
+    webLink: webLink,
     finished: 0,
   });
 }
@@ -445,9 +503,12 @@ function onEnterClick() {
 
               bookTitle = volume.volumeInfo.title;
               bookAuthor = volume.volumeInfo.authors[0];
-
+              var x = Math.random();
+              bookDocId = x.toString();
               bookPages = pagesAve;
-              bookDocId = volume.id;
+              id = volume.id;
+              webLink = volume.volumeInfo.canonicalVolumeLink;
+              imageUrl = volume.volumeInfo.imageLinks.smallThumbnail;
               calcDue();
               bookToBooks();
               bookToUser();
@@ -521,6 +582,9 @@ function onEnterClick() {
                   diff = document.getElementById("diff").value;
                   enteredAuth = document.getElementById("authorname").value;
                   var enteredPages = document.getElementById("pageInput").value;
+                  webLink = "javascript:void(0);";
+                  imageUrl = "images/book.png";
+                  id = 0;
                   if (
                     enteredTitle.length >= 1 &&
                     enteredAuth.length >= 1 &&
@@ -605,6 +669,9 @@ function onEnterClick() {
               bookPages = document.getElementById("pageInput").value;
               var x = Math.random();
               bookDocId = x.toString();
+              webLink = "javascript:void(0);";
+              imageUrl = "images/book.png";
+              id = 0;
               calcDue();
               bookToBooks();
               bookToUser();
@@ -655,7 +722,3 @@ document.getElementById("enterButton").addEventListener("keydown", () => {
     onEnterClick();
   }
 });
-
-//event listener for log button
-
-//event listener for users button
