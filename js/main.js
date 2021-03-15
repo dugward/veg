@@ -136,9 +136,11 @@ logMenu.addEventListener("click", () => {
         <div class="logItem ${doc.id}">
       <span class="lognum">${counter}.</span>
       <img src="${doc.data().imageUrl}">
-      <span class="title"><a href="${doc.data().webLink}">${
+      <a href="${doc.data().webLink}">${
               doc.data().title
-            }</a></br>${doc.data().author}</br><span class="dueDone ${
+            }</a></br><span class="authorlist">${
+              doc.data().author
+            }</span></br><div class="little"><span class="dueDone ${
               doc.id
             }">Due</span
       ><span class="date ${doc.id}">${doc.data().due}</span>
@@ -151,6 +153,8 @@ logMenu.addEventListener("click", () => {
 <span class="material-icons remove ${doc.id}">
 remove_circle_outline
 </span>
+<!-- <a class="add ${doc.id}">Add time</a>-->
+</div>
     </div>
         `
           );
@@ -160,6 +164,9 @@ remove_circle_outline
             .addEventListener("click", () => {
               document.getElementsByClassName(
                 `unchecked ${doc.id}`
+              )[0].style.display = "none";
+              document.getElementsByClassName(
+                `add ${doc.id}`
               )[0].style.display = "none";
               document.getElementsByClassName(
                 `dueDone ${doc.id}`
@@ -209,6 +216,32 @@ remove_circle_outline
               warning.style.display = "none";
             });
           });
+
+          // Add Time
+
+          let thisAdd = document.getElementsByClassName(`add ${doc.id}`)[0];
+          console.log(thisAdd);
+          thisAdd.addEventListener("click", () => {
+            let addId = thisAdd.classList[1];
+            console.log(addId);
+            userDoc = db.collection("books").doc(addId);
+            var nowDue;
+            userDoc.get().then(function (doc) {
+              let currentDue = new Date(doc.data().due);
+              console.log(currentDue);
+              let newDue = new Date();
+              newDue.setDate(currentDue.getDate() + 7);
+              nowDue = newDue.toLocaleDateString();
+              console.log(nowDue);
+              userDoc.update({
+                due: `${nowDue}`,
+              });
+              console.log(addId);
+              console.log(document.querySelector(`.date.${addId}`));
+              document.querySelector(`.date.${doc.id}`).innerText = `${nowDue}`;
+            });
+          });
+
           //
         } else {
           logDiv.insertAdjacentHTML(
@@ -217,15 +250,13 @@ remove_circle_outline
         <div class="logItem">
       <span class="lognum">${counter}.</span>
       <img src="${doc.data().imageUrl}">
-      <span class="title"><a href="${doc.data().webLink}">${
+      <a href="${doc.data().webLink}">${
               doc.data().title
-            }</a></br>${doc.data().author}</br><span class="dueDone">Done</span
-      >
-      <span class="material-icons box"> check_box_outline </span></br><span class="material-icons remove ${
-        doc.id
-      }">
-      remove_circle_outline
-      </span>
+            }</a></br><span class="authorlist">${doc.data().author}</span></br>
+           <div class="little"> <span class="material-icons remove ${doc.id}">
+            remove_circle_outline
+            </span><span class="dueDone">Done</span
+      ></div>
     </div>
         `
           );
@@ -315,7 +346,9 @@ function usersMenuUp() {
                   <img src="${doc.data().imageUrl}">
                   <span class="title"><a href="${doc.data().webLink}">${
                           doc.data().title
-                        }</a></br>${doc.data().author}
+                        }</a></br><span class="authorlist">${
+                          doc.data().author
+                        }</span>
                 </div>
                     `
                       );

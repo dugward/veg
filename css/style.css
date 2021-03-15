@@ -153,8 +153,13 @@ select {
   color: white;
 }
 
-.title {
+.info {
   display: block;
+  float: left;
+}
+
+.little {
+  float: left;
 }
 
 .author {
@@ -305,7 +310,7 @@ select {
 
 #dueDate {
   color: lightcoral;
-  padding-left: 0.3em;
+  padding-right: 0.3em;
 }
 
 .log {
@@ -337,7 +342,7 @@ select {
 
 .date {
   color: lightcoral;
-  margin-left: 1em;
+  margin-right: 1em;
   width: em;
 }
 
@@ -345,7 +350,7 @@ select {
   cursor: pointer;
   vertical-align: middle;
   font-size: 1em;
-  padding-left: 0.5em;
+  padding-right: 0.5em;
   margin-top: -0.1em;
 }
 
@@ -353,17 +358,26 @@ select {
   display: none;
 }
 
+.add {
+  font-size: 0.8em;
+}
+
 .dueDone,
 .date {
   font-size: 0.8em;
+}
+
+.dueDone {
+  padding-right: 1em;
 }
 
 .remove {
   font-size: 1em;
   vertical-align: middle;
   cursor: pointer;
-  margin-top: 0.34em;
+  margin-top: 0em;
   color: lightcoral;
+  padding-right: 1em;
 }
 
 .warning {
@@ -389,6 +403,7 @@ select {
   float: left;
   padding-right: 0.5em;
   width: 80px;
+  clear: all;
 }
 
 .warningQuestion {
@@ -412,6 +427,11 @@ select {
 .users {
   margin-top: -0.8em;
   display: none;
+}
+
+.authorlist {
+  font-size: 0.85em;
+  color: rgb(185, 184, 184);
 }
 
 .userchoicerow {
