@@ -160,14 +160,14 @@ remove_circle_outline
           );
           //add event listener for checkbox
           document
-            .getElementsByClassName(`unchecked ${doc.id}`)[0]
+            .getElementsByClassName(`unchecked`)[0]
             .addEventListener("click", () => {
               document.getElementsByClassName(
                 `unchecked ${doc.id}`
               )[0].style.display = "none";
-              document.getElementsByClassName(
-                `add ${doc.id}`
-              )[0].style.display = "none";
+              // document.getElementsByClassName(
+              //   `add ${doc.id}`
+              // )[0].style.display = "none";
               document.getElementsByClassName(
                 `dueDone ${doc.id}`
               )[0].innerText = "Done";
