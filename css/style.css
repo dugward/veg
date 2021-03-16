@@ -381,7 +381,7 @@ select {
 }
 
 .warning {
-  position: absolute;
+  position: fixed;
   top: 10em;
   left: 25%;
   background-color: rgb(15, 105, 105);

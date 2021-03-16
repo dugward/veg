@@ -67,7 +67,6 @@ firebase.auth().onAuthStateChanged(function (user) {
           name: userName,
           books: [],
           finished: 0,
-          unfinished: 0,
         });
       }
     });
@@ -179,7 +178,6 @@ remove_circle_outline
               )[0].style.display = "inline";
               userDoc.update({
                 unfinished: firebase.firestore.FieldValue.increment(-1),
-                finished: firebase.firestore.FieldValue.increment(1),
               });
               bookDoc.update({
                 finished: 1,
@@ -193,6 +191,88 @@ remove_circle_outline
           )[0];
           thisRemove.addEventListener("click", () => {
             let warning = document.querySelector(".warning");
+            warning.innerHTML = `  <p class="warningQuestion">Remove book?</p>
+            <p class="warningoptions"><span class="yes">Yes</span>/<span class="no">No</span></p>`;
+            warning.style.display = "block";
+            document.querySelector(".yes").addEventListener("click", () => {
+              let deleteId = thisRemove.classList[2];
+              //delete doc in books and user
+              db.collection("books").doc(deleteId).delete();
+              db.collection("users")
+                .doc(userID)
+                .update({
+                  books: firebase.firestore.FieldValue.arrayRemove(
+                    `${deleteId}`
+                  ),
+                });
+              userDoc.update({
+                unfinished: firebase.firestore.FieldValue.increment(-1),
+              });
+              //remove from page
+              document.getElementsByClassName(
+                `logItem ${deleteId}`
+              )[0].style.display = "none";
+              //close warning
+              warning.style.display = "none";
+              warning.innerHTML = ``;
+            });
+            document.querySelector(".no").addEventListener("click", () => {
+              warning.style.display = "none";
+              warning.innerHTML = ``;
+            });
+          });
+
+          // Add Time
+
+          // let thisAdd = document.getElementsByClassName(`add ${doc.id}`)[0];
+          // console.log(thisAdd);
+          // thisAdd.addEventListener("click", () => {
+          //   let addId = thisAdd.classList[1];
+          //   console.log(addId);
+          //   userDoc = db.collection("books").doc(addId);
+          //   var nowDue;
+          //   userDoc.get().then(function (doc) {
+          //     let currentDue = new Date(doc.data().due);
+          //     console.log(currentDue);
+          //     let newDue = new Date();
+          //     newDue.setDate(currentDue.getDate() + 7);
+          //     nowDue = newDue.toLocaleDateString();
+          //     console.log(nowDue);
+          //     userDoc.update({
+          //       due: `${nowDue}`,
+          //     });
+          //     console.log(addId);
+          //     console.log(document.querySelector(`.date.${addId}`));
+          //     document.querySelector(`.date.${doc.id}`).innerText = `${nowDue}`;
+          //   });
+          // });
+
+          //
+        } else {
+          logDiv.insertAdjacentHTML(
+            "beforeend",
+            `
+        <div class="logItem ${doc.id}">
+      <span class="lognum">${counter}.</span>
+      <img src="${doc.data().imageUrl}">
+      <a href="${doc.data().webLink}">${
+              doc.data().title
+            }</a></br><span class="authorlist">${doc.data().author}</span></br>
+           <div class="little"> <span class="material-icons remove ${doc.id}">
+            remove_circle_outline
+            </span><span class="dueDone">Done</span
+      ></div>
+    </div>
+        `
+          );
+          //remove entry
+          let thisRemove = document.getElementsByClassName(
+            `remove ${doc.id}`
+          )[0];
+          thisRemove.addEventListener("click", () => {
+            let warning = document.querySelector(".warning");
+            warning.innerHTML = `  <p class="warningQuestion">Remove book?</p>
+            <p class="warningoptions"><span class="yes">Yes</span>/<span class="no">No</span></p>`;
             warning.style.display = "block";
             document.querySelector(".yes").addEventListener("click", () => {
               let deleteId = thisRemove.classList[2];
@@ -211,55 +291,13 @@ remove_circle_outline
               )[0].style.display = "none";
               //close warning
               warning.style.display = "none";
+              warning.innerHTML = ``;
             });
             document.querySelector(".no").addEventListener("click", () => {
               warning.style.display = "none";
+              warning.innerHTML = ``;
             });
           });
-
-          // Add Time
-
-          let thisAdd = document.getElementsByClassName(`add ${doc.id}`)[0];
-          console.log(thisAdd);
-          thisAdd.addEventListener("click", () => {
-            let addId = thisAdd.classList[1];
-            console.log(addId);
-            userDoc = db.collection("books").doc(addId);
-            var nowDue;
-            userDoc.get().then(function (doc) {
-              let currentDue = new Date(doc.data().due);
-              console.log(currentDue);
-              let newDue = new Date();
-              newDue.setDate(currentDue.getDate() + 7);
-              nowDue = newDue.toLocaleDateString();
-              console.log(nowDue);
-              userDoc.update({
-                due: `${nowDue}`,
-              });
-              console.log(addId);
-              console.log(document.querySelector(`.date.${addId}`));
-              document.querySelector(`.date.${doc.id}`).innerText = `${nowDue}`;
-            });
-          });
-
-          //
-        } else {
-          logDiv.insertAdjacentHTML(
-            "beforeend",
-            `
-        <div class="logItem">
-      <span class="lognum">${counter}.</span>
-      <img src="${doc.data().imageUrl}">
-      <a href="${doc.data().webLink}">${
-              doc.data().title
-            }</a></br><span class="authorlist">${doc.data().author}</span></br>
-           <div class="little"> <span class="material-icons remove ${doc.id}">
-            remove_circle_outline
-            </span><span class="dueDone">Done</span
-      ></div>
-    </div>
-        `
-          );
         }
 
         counter++;
