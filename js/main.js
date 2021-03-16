@@ -152,7 +152,7 @@ logMenu.addEventListener("click", () => {
 <span class="material-icons remove ${doc.id}">
 remove_circle_outline
 </span>
-<!-- <a class="add ${doc.id}">Add time</a>-->
+<a class="add ${doc.id}">Add time</a>
 </div>
     </div>
         `
@@ -222,30 +222,30 @@ remove_circle_outline
             });
           });
 
-          // Add Time
+          //Add Time
 
-          // let thisAdd = document.getElementsByClassName(`add ${doc.id}`)[0];
-          // console.log(thisAdd);
-          // thisAdd.addEventListener("click", () => {
-          //   let addId = thisAdd.classList[1];
-          //   console.log(addId);
-          //   userDoc = db.collection("books").doc(addId);
-          //   var nowDue;
-          //   userDoc.get().then(function (doc) {
-          //     let currentDue = new Date(doc.data().due);
-          //     console.log(currentDue);
-          //     let newDue = new Date();
-          //     newDue.setDate(currentDue.getDate() + 7);
-          //     nowDue = newDue.toLocaleDateString();
-          //     console.log(nowDue);
-          //     userDoc.update({
-          //       due: `${nowDue}`,
-          //     });
-          //     console.log(addId);
-          //     console.log(document.querySelector(`.date.${addId}`));
-          //     document.querySelector(`.date.${doc.id}`).innerText = `${nowDue}`;
-          //   });
-          // });
+          let thisAdd = document.getElementsByClassName(`add`)[0];
+          console.log(thisAdd);
+          thisAdd.addEventListener("click", () => {
+            let addId = thisAdd.classList[1];
+            console.log(addId);
+            userDoc = db.collection("books").doc(addId);
+            var nowDue;
+            userDoc.get().then(function (doc) {
+              let doo = new Date(doc.data().due);
+              doo.setDate(doo.getDate() + 7);
+
+              console.log(doo.toLocaleDateString());
+              userDoc.update({
+                due: `${doo}`,
+              });
+              console.log(addId);
+              console.log(document.getElementsByClassName(`date ${addId}`)[0]);
+              document.getElementsByClassName(
+                `date ${addId}`
+              )[0].innerText = `${doo.toLocaleDateString()}`;
+            });
+          });
 
           //
         } else {
