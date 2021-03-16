@@ -105,9 +105,9 @@ entryMenu.addEventListener("click", () => {
 
 logMenu.addEventListener("click", () => {
   if (logMenu.classList.contains("active") == false) {
+    var book;
     clearActive();
     pageState = 1;
-    var book;
     logDiv.innerHTML = "";
     logMenu.classList.add("active");
     formDiv.style.display = "none";
@@ -118,32 +118,31 @@ logMenu.addEventListener("click", () => {
     // statsDiv.style.display = "none";
     usersDiv.style.display = "none";
     history.pushState(null, null, null);
-    console.log(userbooks);
     var counter = 2;
     userDoc = db.collection("users").doc(userID);
     userDoc.get().then(function (doc) {
       userbooks = doc.data().books;
-    });
-    userbooks.forEach((el) => {
-      const bookDoc = db.collection("books").doc(el);
-      bookDoc.get().then(function (doc) {
-        book = doc.data();
-        let dooo = new Date(doc.data().due);
 
-        if (doc.data().finished == 0) {
-          logDiv.insertAdjacentHTML(
-            "afterbegin",
-            `
+      userbooks.forEach((el) => {
+        const bookDoc = db.collection("books").doc(el);
+        bookDoc.get().then(function (doc) {
+          book = doc.data();
+          let dooo = new Date(doc.data().due);
+
+          if (doc.data().finished == 0) {
+            logDiv.insertAdjacentHTML(
+              "afterbegin",
+              `
         <div class="logItem ${doc.id}">
       <span class="lognum">${counter}.</span>
       <img src="${doc.data().imageUrl}">
       <a href="${doc.data().webLink}">${
-              doc.data().title
-            }</a></br><span class="authorlist">${
-              doc.data().author
-            }</span></br><div class="little"><span class="dueDone ${
-              doc.id
-            }">Due</span
+                doc.data().title
+              }</a></br><span class="authorlist">${
+                doc.data().author
+              }</span></br><div class="little"><span class="dueDone ${
+                doc.id
+              }">Due</span
       ><span class="date ${doc.id}">${dooo.toLocaleDateString()}</span>
       <span class="material-icons box unchecked ${
         doc.id
@@ -158,151 +157,156 @@ remove_circle_outline
 </div>
     </div>
         `
-          );
-          //add event listener for checkbox
-          document
-            .getElementsByClassName(`unchecked`)[0]
-            .addEventListener("click", () => {
-              document.getElementsByClassName(
-                `unchecked ${doc.id}`
-              )[0].style.display = "none";
-              // document.getElementsByClassName(
-              //   `add ${doc.id}`
-              // )[0].style.display = "none";
-              document.getElementsByClassName(
-                `dueDone ${doc.id}`
-              )[0].innerText = "Done";
-              document.getElementsByClassName(
-                `date ${doc.id}`
-              )[0].style.display = "none";
-              document.getElementsByClassName(
-                `checked ${doc.id}`
-              )[0].style.display = "inline";
-              userDoc.update({
-                unfinished: firebase.firestore.FieldValue.increment(-1),
-              });
-              bookDoc.update({
-                finished: 1,
-              });
-            });
-
-          // remove entry
-
-          let thisRemove = document.getElementsByClassName(
-            `remove ${doc.id}`
-          )[0];
-          thisRemove.addEventListener("click", () => {
-            let warning = document.querySelector(".warning");
-            warning.innerHTML = `  <p class="warningQuestion">Remove book?</p>
-            <p class="warningoptions"><span class="yes">Yes</span>/<span class="no">No</span></p>`;
-            warning.style.display = "block";
-            document.querySelector(".yes").addEventListener("click", () => {
-              let deleteId = thisRemove.classList[2];
-              //delete doc in books and user
-              db.collection("books").doc(deleteId).delete();
-              db.collection("users")
-                .doc(userID)
-                .update({
-                  books: firebase.firestore.FieldValue.arrayRemove(
-                    `${deleteId}`
-                  ),
+            );
+            //add event listener for checkbox
+            document
+              .getElementsByClassName(`unchecked`)[0]
+              .addEventListener("click", () => {
+                document.getElementsByClassName(
+                  `unchecked ${doc.id}`
+                )[0].style.display = "none";
+                // document.getElementsByClassName(
+                //   `add ${doc.id}`
+                // )[0].style.display = "none";
+                document.getElementsByClassName(
+                  `dueDone ${doc.id}`
+                )[0].innerText = "Done";
+                document.getElementsByClassName(
+                  `date ${doc.id}`
+                )[0].style.display = "none";
+                document.getElementsByClassName(
+                  `checked ${doc.id}`
+                )[0].style.display = "inline";
+                userDoc.update({
+                  unfinished: firebase.firestore.FieldValue.increment(-1),
                 });
-              userDoc.update({
-                unfinished: firebase.firestore.FieldValue.increment(-1),
+                bookDoc.update({
+                  finished: 1,
+                });
               });
-              //remove from page
-              document.getElementsByClassName(
-                `logItem ${deleteId}`
-              )[0].style.display = "none";
-              //close warning
-              warning.style.display = "none";
-              warning.innerHTML = ``;
-            });
-            document.querySelector(".no").addEventListener("click", () => {
-              warning.style.display = "none";
-              warning.innerHTML = ``;
-            });
-          });
 
-          //Add Time
+            // remove entry
 
-          let thisAdd = document.getElementsByClassName(`add`)[0];
-          console.log(thisAdd);
-          thisAdd.addEventListener("click", () => {
-            let addId = thisAdd.classList[1];
-            console.log(addId);
-            userDoc = db.collection("books").doc(addId);
-            var nowDue;
-            userDoc.get().then(function (doc) {
-              let doo = new Date(doc.data().due);
-              doo.setDate(doo.getDate() + 7);
-
-              console.log(doo.toLocaleDateString());
-              userDoc.update({
-                due: `${doo}`,
+            let thisRemove = document.getElementsByClassName(
+              `remove ${doc.id}`
+            )[0];
+            thisRemove.addEventListener("click", () => {
+              let warning = document.querySelector(".warning");
+              warning.innerHTML = `  <p class="warningQuestion">Remove book?</p>
+            <p class="warningoptions"><span class="yes">Yes</span>/<span class="no">No</span></p>`;
+              warning.style.display = "block";
+              document.querySelector(".yes").addEventListener("click", () => {
+                let deleteId = thisRemove.classList[2];
+                //delete doc in books and user
+                db.collection("books").doc(deleteId).delete();
+                db.collection("users")
+                  .doc(userID)
+                  .update({
+                    books: firebase.firestore.FieldValue.arrayRemove(
+                      `${deleteId}`
+                    ),
+                  });
+                userDoc.update({
+                  unfinished: firebase.firestore.FieldValue.increment(-1),
+                });
+                //remove from page
+                document.getElementsByClassName(
+                  `logItem ${deleteId}`
+                )[0].style.display = "none";
+                //close warning
+                warning.style.display = "none";
+                warning.innerHTML = ``;
               });
+              document.querySelector(".no").addEventListener("click", () => {
+                warning.style.display = "none";
+                warning.innerHTML = ``;
+              });
+            });
+
+            //Add Time
+
+            let thisAdd = document.getElementsByClassName(`add`)[0];
+            console.log(thisAdd);
+            thisAdd.addEventListener("click", () => {
+              let addId = thisAdd.classList[1];
               console.log(addId);
-              console.log(document.getElementsByClassName(`date ${addId}`)[0]);
-              document.getElementsByClassName(
-                `date ${addId}`
-              )[0].innerText = `${doo.toLocaleDateString()}`;
-            });
-          });
+              userDoc = db.collection("books").doc(addId);
+              var nowDue;
+              userDoc.get().then(function (doc) {
+                let doo = new Date(doc.data().due);
+                doo.setDate(doo.getDate() + 7);
 
-          //
-        } else {
-          logDiv.insertAdjacentHTML(
-            "beforeend",
-            `
+                console.log(doo.toLocaleDateString());
+                userDoc.update({
+                  due: `${doo}`,
+                });
+                console.log(addId);
+                console.log(
+                  document.getElementsByClassName(`date ${addId}`)[0]
+                );
+                document.getElementsByClassName(
+                  `date ${addId}`
+                )[0].innerText = `${doo.toLocaleDateString()}`;
+              });
+            });
+
+            //
+          } else {
+            logDiv.insertAdjacentHTML(
+              "beforeend",
+              `
         <div class="logItem ${doc.id}">
       <span class="lognum">${counter}.</span>
       <img src="${doc.data().imageUrl}">
       <a href="${doc.data().webLink}">${
-              doc.data().title
-            }</a></br><span class="authorlist">${doc.data().author}</span></br>
+                doc.data().title
+              }</a></br><span class="authorlist">${
+                doc.data().author
+              }</span></br>
            <div class="little"> <span class="material-icons remove ${doc.id}">
             remove_circle_outline
             </span><span class="dueDone">Done</span
       ></div>
     </div>
         `
-          );
-          //remove entry
-          let thisRemove = document.getElementsByClassName(
-            `remove ${doc.id}`
-          )[0];
-          thisRemove.addEventListener("click", () => {
-            let warning = document.querySelector(".warning");
-            warning.innerHTML = `  <p class="warningQuestion">Remove book?</p>
+            );
+            //remove entry
+            let thisRemove = document.getElementsByClassName(
+              `remove ${doc.id}`
+            )[0];
+            thisRemove.addEventListener("click", () => {
+              let warning = document.querySelector(".warning");
+              warning.innerHTML = `  <p class="warningQuestion">Remove book?</p>
             <p class="warningoptions"><span class="yes">Yes</span>/<span class="no">No</span></p>`;
-            warning.style.display = "block";
-            document.querySelector(".yes").addEventListener("click", () => {
-              let deleteId = thisRemove.classList[2];
-              //delete doc in books and user
-              db.collection("books").doc(deleteId).delete();
-              db.collection("users")
-                .doc(userID)
-                .update({
-                  books: firebase.firestore.FieldValue.arrayRemove(
-                    `${deleteId}`
-                  ),
-                });
-              //remove from page
-              document.getElementsByClassName(
-                `logItem ${deleteId}`
-              )[0].style.display = "none";
-              //close warning
-              warning.style.display = "none";
-              warning.innerHTML = ``;
+              warning.style.display = "block";
+              document.querySelector(".yes").addEventListener("click", () => {
+                let deleteId = thisRemove.classList[2];
+                //delete doc in books and user
+                db.collection("books").doc(deleteId).delete();
+                db.collection("users")
+                  .doc(userID)
+                  .update({
+                    books: firebase.firestore.FieldValue.arrayRemove(
+                      `${deleteId}`
+                    ),
+                  });
+                //remove from page
+                document.getElementsByClassName(
+                  `logItem ${deleteId}`
+                )[0].style.display = "none";
+                //close warning
+                warning.style.display = "none";
+                warning.innerHTML = ``;
+              });
+              document.querySelector(".no").addEventListener("click", () => {
+                warning.style.display = "none";
+                warning.innerHTML = ``;
+              });
             });
-            document.querySelector(".no").addEventListener("click", () => {
-              warning.style.display = "none";
-              warning.innerHTML = ``;
-            });
-          });
-        }
+          }
 
-        counter++;
+          counter++;
+        });
       });
     });
   }
