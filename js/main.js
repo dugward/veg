@@ -128,6 +128,8 @@ logMenu.addEventListener("click", () => {
       const bookDoc = db.collection("books").doc(el);
       bookDoc.get().then(function (doc) {
         book = doc.data();
+        let dooo = new Date(doc.data().due);
+
         if (doc.data().finished == 0) {
           logDiv.insertAdjacentHTML(
             "afterbegin",
@@ -142,7 +144,7 @@ logMenu.addEventListener("click", () => {
             }</span></br><div class="little"><span class="dueDone ${
               doc.id
             }">Due</span
-      ><span class="date ${doc.id}">${doc.data().due}</span>
+      ><span class="date ${doc.id}">${dooo.toLocaleDateString()}</span>
       <span class="material-icons box unchecked ${
         doc.id
       }"> check_box_outline_blank </span>
