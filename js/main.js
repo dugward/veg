@@ -536,6 +536,9 @@ function onEnterClick() {
           document.getElementById(
             "authorChoice"
           ).innerText = `${topThree[0].volumeInfo.authors[0]}`;
+          document.getElementById(
+            "titleChoice"
+          ).innerText = `${topThree[0].volumeInfo.title}`;
           authClass.add("0");
           document.getElementById("question").style.display = "block";
           //
